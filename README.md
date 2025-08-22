@@ -1,73 +1,173 @@
-# Welcome to your Lovable project
+# MindCheck - Głosowy AI-coach dobrostanu
 
-## Project info
+Nowoczesna aplikacja webowa oferująca 3-minutowe check-iny głosowe z AI, które pomagają w codziennej refleksji i budowaniu spokoju.
 
-**URL**: https://lovable.dev/projects/51cc3fba-12c9-48b7-95b1-b42e40ac23a6
+## 🌟 Funkcjonalności
 
-## How can I edit this code?
+- **Landing page** z kompletną prezentacją produktu
+- **Responsive design** - działa na wszystkich urządzeniach
+- **Dark/Light mode** - przełączanie motywu
+- **Accessibility (a11y)** - optymalizacja dla wszystkich użytkowników
+- **SEO-friendly** - zoptymalizowane pod wyszukiwarki
+- **3 dodatkowe strony**: Polityka prywatności, Zastrzeżenia, Wsparcie kryzysowe
+- **Animacje** - delikatne przejścia z Framer Motion
+- **Cookie banner** - zgodność z RODO
 
-There are several ways of editing your application.
+## 🛠️ Technologie
 
-**Use Lovable**
+- **React 18** + **TypeScript**
+- **Vite** - szybkie budowanie
+- **Tailwind CSS** - stylowanie
+- **shadcn/ui** - komponenty UI
+- **Framer Motion** - animacje
+- **React Router** - routing
+- **Lucide React** - ikony
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/51cc3fba-12c9-48b7-95b1-b42e40ac23a6) and start prompting.
+## 🚀 Szybki start
 
-Changes made via Lovable will be committed automatically to this repo.
+### 1. Klonowanie repozytorium
+```bash
+git clone <URL_REPOZYTORIUM>
+cd mindcheck
+```
 
-**Use your preferred IDE**
+### 2. Instalacja zależności
+```bash
+npm install
+```
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### 3. Konfiguracja zmiennych środowiskowych
+```bash
+# Skopiuj plik przykładowy
+cp .env.example .env
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+# Edytuj plik .env i dodaj URL swojego formularza
+VITE_FORM_URL=https://your-form-provider.com/your-form-id
+```
 
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+### 4. Uruchomienie w trybie deweloperskim
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Aplikacja będzie dostępna pod adresem `http://localhost:5173`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 📦 Budowanie dla produkcji
 
-**Use GitHub Codespaces**
+```bash
+# Build dla produkcji
+npm run build
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+# Podgląd buildu
+npm run preview
+```
 
-## What technologies are used for this project?
+## 🌐 Deploy na Vercel
 
-This project is built with:
+1. **Połącz z GitHubem** - wypchnij kod do repozytorium GitHub
+2. **Import w Vercel** - zaimportuj projekt w panelu Vercel
+3. **Ustaw zmienne środowiskowe** w ustawieniach projektu Vercel:
+   - `VITE_FORM_URL` - URL do formularza (Tally, Typeform, etc.)
+4. **Deploy** - Vercel automatycznie zbuduje i wdroży aplikację
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### Automatyczne deploymenty
+Każdy push do gałęzi `main` automatycznie uruchamia nowy deployment.
 
-## How can I deploy this project?
+## ⚙️ Konfiguracja
 
-Simply open [Lovable](https://lovable.dev/projects/51cc3fba-12c9-48b7-95b1-b42e40ac23a6) and click on Share -> Publish.
+### Zmienne środowiskowe
 
-## Can I connect a custom domain to my Lovable project?
+- `VITE_FORM_URL` - URL do zewnętrznego formularza check-in (wymagane)
+- `VITE_PLAUSIBLE_DOMAIN` - domena dla analityki Plausible (opcjonalne)
 
-Yes, you can!
+### Personalizacja
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+#### Zmiana kolorów
+Edytuj plik `src/index.css` - sekcja `:root` i `.dark`:
+```css
+:root {
+  --primary: 195 100% 45%; /* Główny kolor - teal */
+  --accent: 142 76% 73%;   /* Akcent - sage green */
+  /* ... inne kolory */
+}
+```
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+#### Zawartość
+- **Teksty**: Edytuj komponenty w folderze `src/components/`
+- **Strony prawne**: Zaktualizuj `src/pages/Privacy.tsx`, `Disclaimer.tsx`, `Support.tsx`
+- **Kontakt**: Zmień adresy email w `Footer.tsx` i stronach prawnych
+
+#### SEO
+- **Meta tagi**: `index.html` i `src/pages/Index.tsx`
+- **Canonical URL**: Zaktualizuj w `index.html`
+- **OG image**: Dodaj `public/og-image.jpg`
+
+## 📄 Struktura projektu
+
+```
+src/
+├── components/           # Komponenty aplikacji
+│   ├── ui/              # Komponenty UI (shadcn)
+│   ├── Header.tsx       # Nagłówek z nawigacją
+│   ├── Hero.tsx         # Sekcja hero
+│   ├── HowItWorks.tsx   # Jak to działa
+│   └── ...              # Inne sekcje
+├── pages/               # Strony aplikacji
+│   ├── Index.tsx        # Strona główna
+│   ├── Privacy.tsx      # Polityka prywatności
+│   ├── Disclaimer.tsx   # Zastrzeżenia
+│   └── Support.tsx      # Wsparcie kryzysowe
+├── hooks/               # Custom hooks
+└── lib/                 # Utilities
+```
+
+## 🎨 Design System
+
+Aplikacja używa spójnego design systemu zdefiniowanego w `src/index.css`:
+
+- **Kolory**: Spokojne odcienie teal i sage green
+- **Typografia**: System font + Tailwind typography
+- **Shadows**: Miękkie cienie dla głębi
+- **Animations**: Subtelne animacje entrance
+- **Border radius**: Duże zaokrąglenia dla przyjaznego wyglądu
+
+## 🔒 Bezpieczeństwo i prywatność
+
+- **RODO compliance** - polityka prywatności i cookie banner
+- **Bezpieczne linki** - `rel="noopener noreferrer"` dla zewnętrznych linków
+- **Accessibility** - aria-labels, semantic HTML, keyboard navigation
+- **No tracking** - brak domyślnej analityki (opcjonalny Plausible)
+
+## 📱 Responsive Design
+
+- **Mobile-first** - optymalizacja dla urządzeń mobilnych
+- **Tablet-friendly** - adaptation dla tabletów
+- **Desktop optimized** - pełne wykorzystanie dużych ekranów
+- **Touch-friendly** - odpowiednie rozmiary przycisków i obszarów klikalnych
+
+## 🚨 Wsparcie kryzysowe
+
+Aplikacja zawiera dedykowaną stronę `/support` z:
+- Numerami alarmowymi (112, 800 70 2222, 116 111)
+- Zasobami online dla osób w kryzysie
+- Wskazówkami jak rozpoznać potrzebę pomocy
+- Informacjami jak wspierać innych
+
+## 📈 SEO i wydajność
+
+- **Meta tagi** - title, description, keywords, OG tags
+- **Semantic HTML** - proper HTML5 structure
+- **Fast loading** - Vite + optimized assets
+- **Accessible** - WCAG guidelines compliance
+- **Mobile optimized** - responsive images and layout
+
+## 🤝 Wsparcie
+
+Jeśli potrzebujesz pomocy:
+1. Sprawdź dokumentację powyżej
+2. Otwórz issue na GitHubie
+3. Skontaktuj się mailowo: kontakt@mindcheck.pl
+
+## 📄 Licencja
+
+Wszystkie prawa zastrzeżone © 2024 MindCheck
