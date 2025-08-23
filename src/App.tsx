@@ -8,6 +8,7 @@ import Privacy from "./pages/Privacy";
 import Disclaimer from "./pages/Disclaimer";
 import Support from "./pages/Support";
 import NotFound from "./pages/NotFound";
+import Form from "./pages/Form";
 
 const queryClient = new QueryClient();
 
@@ -22,7 +23,7 @@ const App = () => (
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/disclaimer" element={<Disclaimer />} />
           <Route path="/support" element={<Support />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="/form" element={<Form />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

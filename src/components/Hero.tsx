@@ -2,6 +2,21 @@ import { Button } from "@/components/ui/button";
 import { ExternalLinkButton } from "@/components/ExternalLinkButton";
 import { Mic, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { Link } from 'react-router-dom';
+
+const ButtonLink = ({ to, size, className, ariaLabel, children }) => {
+  return (
+    <Link
+      to={to}
+      className={`inline-flex items-center justify-center rounded-md font-semibold bg-primary text-black transition-all ${className} ${
+        size === 'lg' ? 'text-lg px-8 py-6' : ''
+      }`}
+      aria-label={ariaLabel}
+    >
+      {children}
+    </Link>
+  );
+};
 
 export function Hero() {
   return (
@@ -26,7 +41,7 @@ export function Hero() {
             className="mb-6 text-4xl font-bold tracking-tight lg:text-6xl xl:text-7xl"
           >
             3 minuty, by poczuć{" "}
-            <span className="bg-gradient-primary bg-clip-text text-transparent">
+            <span className="bg-gradient-primary text-indigo-400">
               większy spokój
             </span>
           </motion.h1>
@@ -49,15 +64,15 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="mb-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center"
           >
-            <ExternalLinkButton
-              href={import.meta.env.VITE_FORM_URL || "#"}
-              size="lg"
-              className="w-full sm:w-auto text-lg px-8 py-6 h-auto font-semibold shadow-medium hover:shadow-large transition-all"
-              aria-label="Rozpocznij swój pierwszy check-in głosowy"
-            >
-              Zrób check-in teraz
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </ExternalLinkButton>
+<ButtonLink
+  to="/form"
+  size="lg"
+  className="w-full sm:w-auto shadow-medium hover:shadow-large"
+  ariaLabel="Rozpocznij swój pierwszy check-in głosowy"
+>
+  Zrób check-in teraz
+  <ArrowRight className="ml-2 h-5 w-5" />
+</ButtonLink>
 
             <Button
               variant="outline"

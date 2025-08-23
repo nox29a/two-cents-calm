@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ExternalLinkButton } from "@/components/ExternalLinkButton";
 import { ArrowRight, Clock, Shield, Heart } from "lucide-react";
 import { motion } from "framer-motion";
+import { Link } from 'react-router-dom';
 
 export function FinalCTA() {
   const benefits = [
@@ -10,6 +11,20 @@ export function FinalCTA() {
     { icon: Shield, text: "Bezpieczne i prywatne" },
     { icon: Heart, text: "Dopasowane do Ciebie" }
   ];
+
+  const ButtonLink = ({ to, size, className, ariaLabel, children }) => {
+    return (
+      <Link
+        to={to}
+        className={`inline-flex items-center justify-center rounded-md font-semibold bg-primary text-black transition-all ${className} ${
+          size === 'lg' ? 'text-lg px-8 py-6' : ''
+        }`}
+        aria-label={ariaLabel}
+      >
+        {children}
+      </Link>
+    );
+  };
 
   return (
     <section className="py-20 lg:py-32">
@@ -53,15 +68,15 @@ export function FinalCTA() {
                 transition={{ duration: 0.6, delay: 0.4 }}
                 className="flex flex-col sm:flex-row gap-4 justify-center"
               >
-                <ExternalLinkButton
-                  href={import.meta.env.VITE_FORM_URL || "#"}
-                  size="lg"
-                  className="text-lg px-8 py-6 h-auto font-semibold shadow-medium hover:shadow-large transition-all"
-                  aria-label="Rozpocznij swój pierwszy bezpłatny check-in"
-                >
-                  Zrób pierwszy check-in
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </ExternalLinkButton>
+<ButtonLink
+  to="/form"
+  size="lg"
+  className="w-full sm:w-auto shadow-medium hover:shadow-large"
+  ariaLabel="Rozpocznij swój pierwszy check-in głosowy"
+>
+  Zrób check-in teraz
+  <ArrowRight className="ml-2 h-5 w-5" />
+</ButtonLink>
 
                 <Button
                   variant="outline"

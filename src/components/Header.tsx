@@ -15,6 +15,19 @@ export function Header() {
     { label: "FAQ", href: "#faq" },
     { label: "Kontakt", href: "#contact" }
   ];
+  const ButtonLink = ({ to, size, className, ariaLabel, children }) => {
+  return (
+    <Link
+      to={to}
+      className={`inline-flex items-center justify-center rounded-md bg-primary text-black transition-all ${className} ${
+        size === 'sm' ? 'text-sm px-2 py-2' : ''
+      }`}
+      aria-label={ariaLabel}
+    >
+      {children}
+    </Link>
+  );
+};
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md">
@@ -45,15 +58,15 @@ export function Header() {
           <ThemeToggle />
           
           {/* CTA Button - Desktop */}
-          <ExternalLinkButton
-            href={import.meta.env.VITE_FORM_URL || "#"}
-            variant="default"
-            size="sm"
-            className="hidden md:inline-flex"
-            aria-label="Rozpocznij check-in głosowy"
-          >
-            Zrób check-in
-          </ExternalLinkButton>
+<ButtonLink
+  to="/form"
+  size="sm"
+  className="w-full sm:w-auto shadow-medium hover:shadow-large"
+  ariaLabel="Rozpocznij swój pierwszy check-in głosowy"
+>
+  Zrób check-in
+  
+</ButtonLink>
 
           {/* Mobile menu button */}
           <Button
@@ -88,15 +101,15 @@ export function Header() {
                   {item.label}
                 </a>
               ))}
-              <ExternalLinkButton
-                href={import.meta.env.VITE_FORM_URL || "#"}
-                variant="default"
-                size="sm"
-                className="w-full"
-                aria-label="Rozpocznij check-in głosowy"
-              >
-                Zrób check-in
-              </ExternalLinkButton>
+<ButtonLink
+  to="/form"
+  size="sm"
+  className="w-full sm:w-auto shadow-medium hover:shadow-large"
+  ariaLabel="Rozpocznij swój pierwszy check-in głosowy"
+>
+  Zrób check-in
+  
+</ButtonLink>
             </nav>
           </motion.div>
         )}
