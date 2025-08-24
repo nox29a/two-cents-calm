@@ -1,5 +1,5 @@
 "use client";
-import { Mic, ArrowRight, Square, Info } from "lucide-react";
+import { Mic, ArrowRight, Square, Info, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useRef } from "react";
 import { Header } from "@/components/Header";
@@ -11,11 +11,11 @@ export default function CoachingForm() {
   const [email, setEmail] = useState("");
   const [goals, setGoals] = useState<string[]>([]);
   const [notes, setNotes] = useState("");
-  const [audioError, setAudioError] = useState(""); // Stan do przechowywania błędu audio
+  const [audioError, setAudioError] = useState("");
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const [customGoal, setCustomGoal] = useState('');
   const chunks = useRef<Blob[]>([]);
-  const [showAudioInfo, setShowAudioInfo] = useState(false); // Stan do pokazywania informacji o audio
+  const [showAudioInfo, setShowAudioInfo] = useState(false);
 
   const startRecording = async () => {
     try {
@@ -33,7 +33,7 @@ export default function CoachingForm() {
         const blob = new Blob(chunks.current, { type: "audio/webm" });
         const url = URL.createObjectURL(blob);
         setAudioURL(url);
-        setAudioError(""); // Wyczyść błąd po udanym nagraniu
+        setAudioError("");
       };
 
       mediaRecorderRef.current.start();
@@ -59,13 +59,18 @@ export default function CoachingForm() {
     }
   };
 
+  const addCustomGoal = () => {
+    if (customGoal.trim() !== '' && goals.length < 3 && !goals.includes(customGoal.trim())) {
+      setGoals([...goals, customGoal.trim()]);
+      setCustomGoal('');
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Sprawdź czy audio zostało nagrane
     if (chunks.current.length === 0) {
       setAudioError("Nagranie audio jest wymagane do wysłania formularza");
-      // Przewiń do sekcji nagrywania
       document.getElementById("recording-section")?.scrollIntoView({ behavior: 'smooth' });
       return;
     }
@@ -73,8 +78,8 @@ export default function CoachingForm() {
     const formData = new FormData();
     formData.append("name", name);
     formData.append("email", email);
-    formData.append("notes", notes);
     formData.append("goals", JSON.stringify(goals));
+    formData.append("notes", notes);
 
     if (chunks.current.length > 0) {
       const blob = new Blob(chunks.current, { type: "audio/mp3" });
@@ -232,25 +237,33 @@ export default function CoachingForm() {
           
           {/* Własny cel */}
           <div className="pt-2">
-            <input
-              type="text"
-              placeholder="Inny problem (wpisz własny)"
-              value={customGoal}
-              onChange={(e) => setCustomGoal(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && customGoal.trim() !== '') {
-                  e.preventDefault();
-                  handleGoalChange(customGoal.trim());
-                  setCustomGoal('');
-                }
-              }}
-              className="p-4 border border-gray-200 dark:border-gray-700 rounded-xl w-full focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200 bg-white dark:bg-gray-800"
-            />
-            <p className="text-sm text-muted-foreground mt-1"></p>
+            <div className="flex gap-2">
+              <input
+                type="text"
+                placeholder="Inny problem (wpisz własny)"
+                value={customGoal}
+                onChange={(e) => setCustomGoal(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addCustomGoal();
+                  }
+                }}
+                className="p-4 border border-gray-200 dark:border-gray-700 rounded-xl w-full focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200 bg-white dark:bg-gray-800"
+              />
+              <button
+                type="button"
+                onClick={addCustomGoal}
+                className="px-4 bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors"
+              >
+                Dodaj
+              </button>
+            </div>
+            <p className="text-sm text-muted-foreground mt-1">Naciśnij Enter lub przycisk "Dodaj", aby dodać własny cel</p>
             
             {/* Wyświetlanie dodanych własnych celów */}
             {goals.filter(goal => ![
-              "samotność", "praca", "smutek", "lęk", "motywacja", 
+              "samotność", "smutek", "lęk", "motywacja", 
               "relacje", "sen", "stres", "pewność"
             ].includes(goal)).map((customGoal, index) => (
               <div key={index} className="flex items-center justify-between mt-2 p-2 bg-primary/10 rounded-lg">
@@ -260,11 +273,26 @@ export default function CoachingForm() {
                   onClick={() => handleGoalChange(customGoal)}
                   className="text-red-500 hover:text-red-700"
                 >
-                  {/* Usuń */}
+                  <X size={16} />
                 </button>
               </div>
             ))}
           </div>
+        </motion.div>
+
+        {/* Notatki */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.25 }}
+        >
+          <textarea
+            placeholder="Opisz jak się czujesz."
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            rows={4}
+            className="p-4 border border-gray-200 dark:border-gray-700 rounded-xl w-full focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200 bg-white dark:bg-gray-800 resize-none"
+          />
         </motion.div>
 
         {/* Nagrywanie audio */}
@@ -319,7 +347,7 @@ export default function CoachingForm() {
               >
                 <div className="mt-2 p-3 bg-blue-100 dark:bg-blue-800/30 rounded-lg text-sm text-blue-700 dark:text-blue-300">
                   <p>Twoja wiadomość głosowa pomoże nam lepiej zrozumieć Twoją sytuację i dostosować pomoc do Twoich potrzeb.</p>
-                  <p className="mt-1 font-medium">Nagranie jest wymagane do przesłania formularza.</p>
+                  
                 </div>
               </motion.div>
             )}
@@ -358,17 +386,12 @@ export default function CoachingForm() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.35 }}
           type="submit"
-          disabled={goals.length === 0 || chunks.current.length === 0}
+          
           className="relative px-8 py-4 bg-primary text-white rounded-xl shadow-medium hover:shadow-large hover:-translate-y-0.5 transition-all duration-200 text-lg font-semibold flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
         >
-    
-          
           Wyślij formularz
           <ArrowRight className="h-5 w-5" />
         </motion.button>
-
-
-   
       </form>
       
       {/* Background decoration */}
