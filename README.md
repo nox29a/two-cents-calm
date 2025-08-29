@@ -171,3 +171,4 @@ Jeśli potrzebujesz pomocy:
 ## 📄 Licencja
 
 Wszystkie prawa zastrzeżone © 2024 MindCheck
+# echo
